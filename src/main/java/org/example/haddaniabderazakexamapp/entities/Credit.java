@@ -3,6 +3,7 @@ package org.example.haddaniabderazakexamapp.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.haddaniabderazakexamapp.enums.CreditStatus;
@@ -20,6 +21,7 @@ public abstract class Credit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date date_demande;
+    @Enumerated(EnumType.STRING)
     private CreditStatus status;
     private Date date_acceptation;
     private double montant;
