@@ -25,7 +25,7 @@ public class AuthController {
         return authentication;
     }
 
-    @PostMapping("/auth")
+    @PostMapping("/login")
     public Map<String, String> token(String username, String password) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         Instant now = Instant.now();
