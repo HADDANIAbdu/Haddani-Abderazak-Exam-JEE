@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import org.example.haddaniabderazakexamapp.dtos.CreditImmobilierDTO;
 import org.example.haddaniabderazakexamapp.dtos.CreditPersonnelDTO;
 import org.example.haddaniabderazakexamapp.entities.Client;
+import org.example.haddaniabderazakexamapp.entities.Credit;
 import org.example.haddaniabderazakexamapp.entities.CreditPersonnel;
 import org.example.haddaniabderazakexamapp.mappers.CreditMapper;
 import org.example.haddaniabderazakexamapp.repositories.ClientRepo;
 import org.example.haddaniabderazakexamapp.repositories.CreditRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -21,10 +24,16 @@ public class CreditServiceImpl implements CreditService {
     private ClientRepo  clientRepo;
 
     @Override
+    public List<Credit> getCredits() {
+        return creditRepo.findAll();
+    }
+
+    @Override
     public CreditPersonnelDTO createCreditPersonnel(CreditPersonnelDTO creditPersonnelDTO) {
         Client client = clientRepo.findById(creditPersonnelDTO.getClientDTO().getId()).orElse(null);
         if (client == null) throw new RuntimeException("Client not found");
         CreditPersonnel creditPersonnel = creditMapper.fromCreditPersonnelDTO(creditPersonnelDTO);
+        creditPersonnel.setClient(client);
         CreditPersonnel savedCreditPersonnel = creditRepo.save(creditPersonnel);
         return creditMapper.fromCreditPersonnel(savedCreditPersonnel);
     }
@@ -40,9 +49,8 @@ public class CreditServiceImpl implements CreditService {
     public CreditPersonnelDTO updateCreditPersonnel(Long id, CreditPersonnelDTO creditPersonnelDTO) {
         Client client = clientRepo.findById(creditPersonnelDTO.getClientDTO().getId()).orElse(null);
         if (client == null) throw new RuntimeException("Client not found");
-        CreditPersonnel creditPersonnel = (CreditPersonnel) creditRepo.findById(id).orElse(null);
-        if (creditPersonnel == null) throw new RuntimeException("Credit personnel not found");
-        CreditPersonnel savedCreditPersonnel = new CreditPersonnel();
+        CreditPersonnel savedCreditPersonnel = (CreditPersonnel) creditRepo.findById(id).orElse(null);
+        if (savedCreditPersonnel == null) throw new RuntimeException("Credit personnel not found");
         savedCreditPersonnel.setMotif(creditPersonnelDTO.getMotif());
         savedCreditPersonnel.setStatus(creditPersonnelDTO.getStatus());
         savedCreditPersonnel.setInterestRate(creditPersonnelDTO.getInterestRate());

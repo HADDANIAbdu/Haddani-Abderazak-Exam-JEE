@@ -36,10 +36,9 @@ public class ClientServiceImpl implements ClientService {
     public ClientDTO updateClient(Long clientId, ClientDTO clientDTO) {
         Client updateClient = clientRepo.findById(clientId).orElse(null);
         if (updateClient == null) throw new RuntimeException("Client not found");
-        Client client = new Client();
-        client.setName(clientDTO.getName());
-        client.setEmail(clientDTO.getEmail());
-        return clientMapper.fromClient(client);
+        updateClient.setName(clientDTO.getName());
+        updateClient.setEmail(clientDTO.getEmail());
+        return clientMapper.fromClient(updateClient);
     }
 
     @Override
