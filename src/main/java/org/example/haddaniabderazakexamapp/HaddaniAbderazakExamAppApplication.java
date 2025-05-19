@@ -64,8 +64,6 @@ public class HaddaniAbderazakExamAppApplication {
             cImmobilier.setBien_fiance("Appartement");
             creditRepo.save(cImmobilier);
 
-
-
         };
     }
 }
