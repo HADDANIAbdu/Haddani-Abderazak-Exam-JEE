@@ -22,7 +22,7 @@ public class HaddaniAbderazakExamAppApplication {
         SpringApplication.run(HaddaniAbderazakExamAppApplication.class, args);
     }
 
-    @Bean
+    //@Bean
     CommandLineRunner commandLineRunner(CreditRepo creditRepo,
                                         ClientRepo clientRepo) {
         return args -> {
